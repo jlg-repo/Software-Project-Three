@@ -658,4 +658,96 @@
 .menu-card:hover .food-image img {
   transform: scale(1.06);
 }
-  
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.filter-btn {
+  padding: 9px 17px;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+  background: white;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: 0.18s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  transform: translateY(-1px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #2563eb, #0f172a);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 18px rgba(29, 78, 216, 0.25);
+}
+
+.filter-btn.filter-clear {
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  margin-left: auto;
+}
+
+.filter-btn.filter-clear:hover {
+  color: #ef4444;
+  border-color: #fca5a5;
+  background: #fef2f2;
+  transform: none;
+}
+
+.filter-divider {
+  width: 1px;
+  height: 20px;
+  background: #cbd5e1;
+  flex-shrink: 0;
+}
+
+/* DIETARY TAGS ON CARDS */
+.dietary-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.dietary-tag {
+  font-size: 11px;
+  font-weight: 850;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+/* CLEAR BTN (Favorites page) */
+.clear-btn {
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid #fca5a5;
+  background: white;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: 0.18s ease;
+  white-space: nowrap;
+}
+
+.clear-btn:hover {
+  background: #fef2f2;
+}

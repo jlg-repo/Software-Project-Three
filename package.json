@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "vite",
     "scrape": "node scripts/scrape.js",
+    "cron": "node scripts/cron.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "node-cron": "^4.2.1",
     "puppeteer": "^24.43.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",

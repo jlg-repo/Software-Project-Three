@@ -1,17 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../Components/Navbar";
-import menuData from "../data/menu.json";
+
+type MenuItem = { name: string; station?: string; dietary?: string[] };
+type MenuData = { scrapedAt: string; url: string; items: (MenuItem | string)[] };
 
 function Home() {
-  const { scrapedAt, items } = menuData;
+  const [menu, setMenu] = useState<MenuData | null>(null);
   const [searchText, setSearchText] = useState("");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
-  const filteredItems = items.filter((item) =>
-    item.toLowerCase().includes(searchText.toLowerCase())
+  useEffect(() => {
+    fetch("/menu.json")
+      .then(r => r.json())
+      .then(setMenu)
+      .catch(() => setMenu(null));
+  }, []);
+
+  const scrapedAt = menu?.scrapedAt ?? null;
+  const items: MenuItem[] = (menu?.items ?? []).map(i =>
+    typeof i === "string" ? { name: i } : i
   );
 
-  function getFoodImage(item: string) {
+  const allDietary = [...new Set(items.flatMap(i => i.dietary ?? []))].sort();
+  const allStations = [...new Set(items.map(i => i.station).filter((s): s is string => Boolean(s)))].sort();
+
+  function toggleFilter(label: string) {
+    setActiveFilters(prev =>
+      prev.includes(label) ? prev.filter(f => f !== label) : [...prev, label]
+    );
+  }
+
+  const filteredItems = items.filter(item => {
+    const matchesSearch = item.name.toLowerCase().includes(searchText.toLowerCase());
+    const matchesFilters = activeFilters.every(f =>
+      item.dietary?.includes(f) || item.station === f
+    );
+    return matchesSearch && matchesFilters;
+  });
+
+  function getFoodImage(item: string): string {
     const name = item.toLowerCase();
 
     if (name.includes("pizza")) return "/food/pizza.jpg";
@@ -148,27 +176,70 @@ function Home() {
               </div>
             </div>
 
+            {(allDietary.length > 0 || allStations.length > 0) && (
+              <div className="filter-bar">
+                {allDietary.map(label => (
+                  <button
+                    key={label}
+                    className={`filter-btn${activeFilters.includes(label) ? " active" : ""}`}
+                    onClick={() => toggleFilter(label)}
+                  >
+                    {label}
+                  </button>
+                ))}
+                {allDietary.length > 0 && allStations.length > 0 && (
+                  <div className="filter-divider" />
+                )}
+                {allStations.map(label => (
+                  <button
+                    key={label}
+                    className={`filter-btn${activeFilters.includes(label) ? " active" : ""}`}
+                    onClick={() => toggleFilter(label)}
+                  >
+                    {label}
+                  </button>
+                ))}
+                {activeFilters.length > 0 && (
+                  <button
+                    className="filter-btn filter-clear"
+                    onClick={() => setActiveFilters([])}
+                  >
+                    × Clear
+                  </button>
+                )}
+              </div>
+            )}
+
             {filteredItems.length > 0 ? (
               <div className="menu-grid">
                 {filteredItems.map((item, i) => (
-                  <div className="menu-card" key={item}>
+                  <div className="menu-card" key={item.name}>
                     <div className="menu-card-top">
                       <span className="item-number">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="item-tag">Dining Item</span>
+                      <span className="item-tag">{item.station ?? "Dining Item"}</span>
                     </div>
 
                     <div className="food-image">
-                      <img src={getFoodImage(item)} alt={item} />
+                      <img src={getFoodImage(item.name)} alt={item.name} />
                     </div>
 
-                    <h3>{item}</h3>
+                    <div>
+                      <h3>{item.name}</h3>
+                      {item.dietary && item.dietary.length > 0 && (
+                        <div className="dietary-tags">
+                          {item.dietary.map(label => (
+                            <span key={label} className="dietary-tag">{label}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
 
                     <div className="menu-card-bottom">
                       <button
                         className="favorite-btn"
-                        onClick={() => addFavorite(item)}
+                        onClick={() => addFavorite(item.name)}
                       >
                         Add Favorite
                       </button>
@@ -178,8 +249,8 @@ function Home() {
               </div>
             ) : (
               <div className="empty-state">
-                <h3>No menu item found</h3>
-                <p>Try searching something else.</p>
+                <h3>No items match</h3>
+                <p>{activeFilters.length > 0 ? "Try removing a filter." : "Try searching something else."}</p>
               </div>
             )}
           </section>

@@ -5,7 +5,7 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
-const DATA_DIR = join(ROOT, 'src', 'data');
+const DATA_DIR = join(ROOT, 'public');
 
 const MENU_URL = 'https://ncf.mydininghub.com/en/location/hamilton-dining-hall';
 
@@ -41,7 +41,7 @@ async function scrape() {
     items,
   }, null, 2));
 
-  console.log(`\nSaved ${items.length} items → src/data/menu.json`);
+  console.log(`\nSaved ${items.length} items → public/menu.json`);
 }
 
 scrape().catch(err => {
