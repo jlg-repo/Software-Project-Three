@@ -8,8 +8,7 @@ const npmCliPath = process.env.npm_execpath;
 
 function start(command, args) {
   return spawn(command, args, {
-    stdio: "inherit",
-    shell: process.platform === "win32",
+    stdio: "inherit"
   });
 }
 

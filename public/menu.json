@@ -1,56 +1,616 @@
 {
-  "scrapedAt": "2026-05-08T16:40:44.199Z",
+  "scrapedAt": "2026-05-22T17:26:35.882Z",
   "url": "https://ncf.mydininghub.com/en/location/hamilton-dining-hall",
   "items": [
-    { "name": "Crispy Fish Sandwich", "station": "Entree Station", "calories": "380 Cal", "dietary": [] },
-    { "name": "Grilled Zucchini Squash", "station": "Entree Station", "calories": "45 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Crispy Tater Tots", "station": "Entree Station", "calories": "200 Cal", "dietary": ["Vegan"] },
-    { "name": "Chickpea Haddock Stew", "station": "Soup Station", "calories": "210 Cal", "dietary": ["Gluten Free"] },
-    { "name": "Indian-Spiced Cauliflower", "station": "Vegan Station", "calories": "130 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Grilled Naan", "station": "Vegan Station", "calories": "170 Cal", "dietary": ["Vegetarian"] },
-    { "name": "Grilled Seasoned Chicken Breast", "station": "Entree Station", "calories": "180 Cal", "dietary": ["Gluten Free"] },
-    { "name": "Hamburger", "station": "Entree Station", "calories": "490 Cal", "dietary": [] },
-    { "name": "Crispy Homestyle French Fries", "station": "Entree Station", "calories": "320 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "American Cheese", "station": "Entree Station", "calories": "60 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Lettuce", "station": "Entree Station", "calories": "5 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Sliced Red Onions", "station": "Entree Station", "calories": "10 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Sliced Tomatoes", "station": "Entree Station", "calories": "10 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Classic Cheese Pizza", "station": "Entree Station", "calories": "290 Cal", "dietary": ["Vegetarian"] },
-    { "name": "Meatball Pizza", "station": "Entree Station", "calories": "340 Cal", "dietary": [] },
-    { "name": "Pepperoni Pizza", "station": "Entree Station", "calories": "320 Cal", "dietary": [] },
-    { "name": "Chopped Hard-Cooked Egg", "station": "Salad Bar", "calories": "70 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Creamy Tuna Salad", "station": "Salad Bar", "calories": "150 Cal", "dietary": ["Gluten Free"] },
-    { "name": "Diced Chicken", "station": "Salad Bar", "calories": "110 Cal", "dietary": ["Gluten Free"] },
-    { "name": "Garbanzo Beans", "station": "Salad Bar", "calories": "130 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Shredded Cheddar Cheese", "station": "Salad Bar", "calories": "110 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Croutons", "station": "Salad Bar", "calories": "60 Cal", "dietary": ["Vegan"] },
-    { "name": "Baby Spinach", "station": "Salad Bar", "calories": "10 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Cucumbers", "station": "Salad Bar", "calories": "10 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Feta Cheese Crumbles", "station": "Salad Bar", "calories": "80 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Fresh Fruit Salad", "station": "Salad Bar", "calories": "70 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Grape Tomatoes", "station": "Salad Bar", "calories": "20 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Red Grapes", "station": "Salad Bar", "calories": "50 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Romaine & Iceberg Lettuce", "station": "Salad Bar", "calories": "10 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Shredded Carrots", "station": "Salad Bar", "calories": "25 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Sliced Beets", "station": "Salad Bar", "calories": "35 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Sliced Mixed Bell Peppers", "station": "Salad Bar", "calories": "20 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Balsamic Vinaigrette", "station": "Salad Bar", "calories": "90 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Creamy Caesar Dressing", "station": "Salad Bar", "calories": "160 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Honey Mustard Dressing", "station": "Salad Bar", "calories": "140 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Hummus", "station": "Salad Bar", "calories": "80 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Lite Italian Dressing", "station": "Salad Bar", "calories": "35 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Ranch Dressing", "station": "Salad Bar", "calories": "130 Cal", "dietary": ["Vegetarian", "Gluten Free"] },
-    { "name": "Charro Beans", "station": "Vegan Station", "calories": "190 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Seasoned Rice", "station": "Vegan Station", "calories": "210 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Sweet Tomato Soup", "station": "Soup Station", "calories": "130 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "New England Clam Chowder", "station": "Soup Station", "calories": "270 Cal", "dietary": [] },
-    { "name": "Sweet & Sour Tofu Stir-Fry", "station": "Vegan Station", "calories": "240 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Lo Mein Noodles", "station": "Vegan Station", "calories": "280 Cal", "dietary": ["Vegan"] },
-    { "name": "Southwestern Grilled Turkey", "station": "Entree Station", "calories": "210 Cal", "dietary": ["Gluten Free"] },
-    { "name": "Zucchini & Tomatoes", "station": "Vegan Station", "calories": "55 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Red Beans & Rice", "station": "Vegan Station", "calories": "230 Cal", "dietary": ["Vegan", "Gluten Free"] },
-    { "name": "Hummingbird Cake", "station": "Dessert Station", "calories": "420 Cal", "dietary": ["Vegetarian"] },
-    { "name": "Chocolate Chunk Cookie", "station": "Dessert Station", "calories": "310 Cal", "dietary": ["Vegetarian"] },
-    { "name": "Sugar Cookie", "station": "Dessert Station", "calories": "280 Cal", "dietary": ["Vegetarian"] }
+    {
+      "name": "Crispy Fried Pollock",
+      "station": "Entree Station",
+      "calories": "150 Calories",
+      "dietary": [],
+      "itemOrder": 0
+    },
+    {
+      "name": "Calabacitas",
+      "station": "Entree Station",
+      "calories": "50 Calories",
+      "dietary": [
+        "Vegan",
+        "Plant Forward",
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 1
+    },
+    {
+      "name": "Mexi-Rice",
+      "station": "Entree Station",
+      "calories": "130 Calories",
+      "dietary": [
+        "Vegan",
+        "Made Without Gluten"
+      ],
+      "itemOrder": 2
+    },
+    {
+      "name": "Hearty Macaroni Bake",
+      "station": "Global Kitchen (International)",
+      "calories": "210 Calories",
+      "dietary": [],
+      "itemOrder": 3
+    },
+    {
+      "name": "Broccoli Florets",
+      "station": "Global Kitchen (International)",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 4
+    },
+    {
+      "name": "Broccoli Florets",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 5
+    },
+    {
+      "name": "Grilled Seasoned Chicken Breast",
+      "station": "Entree Station",
+      "calories": "150 Calories",
+      "dietary": [
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 6
+    },
+    {
+      "name": "Hamburger",
+      "station": "Entree Station",
+      "calories": "350 Calories",
+      "dietary": [],
+      "itemOrder": 7
+    },
+    {
+      "name": "Crispy Homestyle French Fries",
+      "station": "Entree Station",
+      "calories": "120 Calories",
+      "dietary": [
+        "Vegan",
+        "Made Without Gluten"
+      ],
+      "itemOrder": 8
+    },
+    {
+      "name": "American Cheese",
+      "station": "Entree Station",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 9
+    },
+    {
+      "name": "Lettuce",
+      "station": "Entree Station",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 10
+    },
+    {
+      "name": "Sliced Red Onions",
+      "station": "Entree Station",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 11
+    },
+    {
+      "name": "Sliced Tomatoes",
+      "station": "Entree Station",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 12
+    },
+    {
+      "name": "Dill Pickle Slices",
+      "station": "Entree Station",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 13
+    },
+    {
+      "name": "American Cheese",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 14
+    },
+    {
+      "name": "Lettuce",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 15
+    },
+    {
+      "name": "Sliced Red Onions",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 16
+    },
+    {
+      "name": "Sliced Tomatoes",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 17
+    },
+    {
+      "name": "Dill Pickle Slices",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 18
+    },
+    {
+      "name": "Classic Cheese Pizza",
+      "station": "Piazza (Pizza Station)",
+      "calories": "260 Calories",
+      "dietary": [],
+      "itemOrder": 19
+    },
+    {
+      "name": "Deluxe Pizza",
+      "station": "Piazza (Pizza Station)",
+      "calories": "320 Calories",
+      "dietary": [],
+      "itemOrder": 20
+    },
+    {
+      "name": "Pepperoni Pizza",
+      "station": "Piazza (Pizza Station)",
+      "calories": "280 Calories",
+      "dietary": [],
+      "itemOrder": 21
+    },
+    {
+      "name": "Chopped Hard-Cooked Egg",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 22
+    },
+    {
+      "name": "Creamy Tuna Salad",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 23
+    },
+    {
+      "name": "Diced Chicken",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 24
+    },
+    {
+      "name": "Garbanzo Beans",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 25
+    },
+    {
+      "name": "Shredded Cheddar Cheese",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 26
+    },
+    {
+      "name": "Croutons",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 27
+    },
+    {
+      "name": "Baby Spinach",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 28
+    },
+    {
+      "name": "Cucumbers",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 29
+    },
+    {
+      "name": "Feta Cheese Crumbles",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 30
+    },
+    {
+      "name": "Fresh Fruit Salad",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 31
+    },
+    {
+      "name": "Grape Tomatoes",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 32
+    },
+    {
+      "name": "Red Grapes",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 33
+    },
+    {
+      "name": "Romaine & Iceberg Lettuce",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 34
+    },
+    {
+      "name": "Shredded Carrots",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 35
+    },
+    {
+      "name": "Sliced Beets",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 36
+    },
+    {
+      "name": "Sliced Mixed Bell Peppers",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 37
+    },
+    {
+      "name": "Balsamic Vinaigrette",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 38
+    },
+    {
+      "name": "Blue Cheese Dressing",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 39
+    },
+    {
+      "name": "Creamy Caesar Dressing",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 40
+    },
+    {
+      "name": "Honey Mustard Dressing",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 41
+    },
+    {
+      "name": "Hummus",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 42
+    },
+    {
+      "name": "Lite Italian Dressing",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 43
+    },
+    {
+      "name": "Ranch Dressing",
+      "station": "Salad Bar",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 44
+    },
+    {
+      "name": "Chopped Hard-Cooked Egg",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 45
+    },
+    {
+      "name": "Creamy Tuna Salad",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 46
+    },
+    {
+      "name": "Diced Chicken",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 47
+    },
+    {
+      "name": "Garbanzo Beans",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 48
+    },
+    {
+      "name": "Shredded Cheddar Cheese",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 49
+    },
+    {
+      "name": "Croutons",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 50
+    },
+    {
+      "name": "Baby Spinach",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 51
+    },
+    {
+      "name": "Cucumbers",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 52
+    },
+    {
+      "name": "Feta Cheese Crumbles",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 53
+    },
+    {
+      "name": "Fresh Fruit Salad",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 54
+    },
+    {
+      "name": "Grape Tomatoes",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 55
+    },
+    {
+      "name": "Red Grapes",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 56
+    },
+    {
+      "name": "Romaine & Iceberg Lettuce",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 57
+    },
+    {
+      "name": "Shredded Carrots",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 58
+    },
+    {
+      "name": "Sliced Beets",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 59
+    },
+    {
+      "name": "Sliced Mixed Bell Peppers",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 60
+    },
+    {
+      "name": "Balsamic Vinaigrette",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 61
+    },
+    {
+      "name": "Blue Cheese Dressing",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 62
+    },
+    {
+      "name": "Creamy Caesar Dressing",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 63
+    },
+    {
+      "name": "Honey Mustard Dressing",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 64
+    },
+    {
+      "name": "Hummus",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 65
+    },
+    {
+      "name": "Lite Italian Dressing",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 66
+    },
+    {
+      "name": "Ranch Dressing",
+      "station": "Other",
+      "calories": null,
+      "dietary": [],
+      "itemOrder": 67
+    },
+    {
+      "name": "Charro Beans",
+      "station": "Soup Station",
+      "calories": "80 Calories",
+      "dietary": [
+        "Vegan",
+        "Plant Forward",
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 68
+    },
+    {
+      "name": "Seasoned Rice",
+      "station": "Soup Station",
+      "calories": "130 Calories",
+      "dietary": [
+        "Vegan",
+        "Made Without Gluten"
+      ],
+      "itemOrder": 69
+    },
+    {
+      "name": "Pasta Fagioli",
+      "station": "Soup Station",
+      "calories": "100 Calories",
+      "dietary": [
+        "Vegan",
+        "Coolfood Meal"
+      ],
+      "itemOrder": 70
+    },
+    {
+      "name": "Creamy Tomato Basil Soup",
+      "station": "Soup Station",
+      "calories": "150 Calories",
+      "dietary": [],
+      "itemOrder": 71
+    },
+    {
+      "name": "Cajun Tofu",
+      "station": "Vegan Station",
+      "calories": "180 Calories",
+      "dietary": [
+        "Vegan",
+        "Coolfood Meal",
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 72
+    },
+    {
+      "name": "Roasted Carrots",
+      "station": "Vegan Station",
+      "calories": "80 Calories",
+      "dietary": [
+        "Vegan",
+        "Plant Forward",
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 73
+    },
+    {
+      "name": "Grilled Ancho-Lime Chicken",
+      "station": "True Balance",
+      "calories": "110 Calories",
+      "dietary": [
+        "Made Without Gluten"
+      ],
+      "itemOrder": 74
+    },
+    {
+      "name": "Southwestern Succotash",
+      "station": "True Balance",
+      "calories": "120 Calories",
+      "dietary": [
+        "Vegan",
+        "Plant Forward",
+        "Made Without Gluten",
+        "Eat Well"
+      ],
+      "itemOrder": 75
+    },
+    {
+      "name": "Seasoned Rice",
+      "station": "True Balance",
+      "calories": "130 Calories",
+      "dietary": [
+        "Vegan",
+        "Made Without Gluten"
+      ],
+      "itemOrder": 76
+    },
+    {
+      "name": "Spiced Chocolate Cupcake",
+      "station": "Dessert Station",
+      "calories": "160 Calories",
+      "dietary": [],
+      "itemOrder": 77
+    },
+    {
+      "name": "Banana Pecan Shortbread",
+      "station": "Dessert Station",
+      "calories": "120 Calories",
+      "dietary": [
+        "Vegan"
+      ],
+      "itemOrder": 78
+    },
+    {
+      "name": "Chocolate Chunk  Cookie",
+      "station": "Dessert Station",
+      "calories": "190 Calories",
+      "dietary": [
+        "Vegan",
+        "Made Without Gluten"
+      ],
+      "itemOrder": 79
+    }
   ]
 }
