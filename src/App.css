@@ -108,7 +108,8 @@
     flex-wrap: wrap;
   }
 
-  .navbar-links a {
+  .navbar-links a,
+  .navbar-links button {
     color: #334155;
     background: transparent;
     border: 1px solid transparent;
@@ -119,11 +120,14 @@
     text-decoration: none;
     font-size: 15px;
     font-weight: 850;
+    font-family: inherit;
+    cursor: pointer;
 
     transition: 0.22s ease;
   }
 
-  .navbar-links a:hover {
+  .navbar-links a:hover,
+  .navbar-links button:hover {
     color: #1d4ed8;
     background: #eff6ff;
   }
@@ -132,6 +136,10 @@
     color: white;
     background: linear-gradient(135deg, #2563eb, #0f172a);
     box-shadow: 0 12px 24px rgba(29, 78, 216, 0.25);
+  }
+
+  .nav-logout {
+    border: 1px solid #cbd5e1;
   }
 
   /* MAIN */
@@ -522,6 +530,16 @@
     box-shadow: 0 16px 30px rgba(37, 99, 235, 0.28);
   }
 
+  .favorite-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+    transform: none;
+  }
+
+  .favorite-btn--saved {
+    background: linear-gradient(135deg, #16a34a, #14532d);
+  }
+
   /* EMPTY STATE */
   .empty-state {
     background: white;
@@ -540,6 +558,14 @@
   .empty-state p {
     margin: 0;
     color: #64748b;
+  }
+
+  .empty-state-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 18px;
   }
 
   /* RESPONSIVE */
@@ -600,7 +626,8 @@
       width: min(100% - 28px, 1180px);
     }
 
-    .navbar-links a {
+    .navbar-links a,
+    .navbar-links button {
       padding: 9px 13px;
       font-size: 14px;
     }

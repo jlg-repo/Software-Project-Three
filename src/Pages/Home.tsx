@@ -1,41 +1,84 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import { ApiError, apiFetch } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
+import type { AuthUser } from "../context/AuthContext";
 
 type MenuItem = { name: string; station?: string; dietary?: string[] };
+type MenuSnapshot = { scrapedAt: string; url: string };
+type MenuResponse = { snapshot: MenuSnapshot | null; items: (MenuItem & { itemOrder?: number })[] };
 type MenuData = { scrapedAt: string; url: string; items: (MenuItem | string)[] };
 
 function Home() {
   const [menu, setMenu] = useState<MenuData | null>(null);
   const [searchText, setSearchText] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const { session, updateUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/menu.json")
-      .then(r => r.json())
-      .then(setMenu)
-      .catch(() => setMenu(null));
+    let active = true;
+
+    async function loadMenu() {
+      try {
+        const data = await apiFetch<MenuResponse>("/api/menu/latest");
+
+        if (!active) {
+          return;
+        }
+
+        if (data.snapshot) {
+          setMenu({
+            scrapedAt: data.snapshot.scrapedAt,
+            url: data.snapshot.url,
+            items: data.items,
+          });
+          return;
+        }
+      } catch {
+        // Fall back to the checked-in JSON if Mongo has no snapshot yet.
+      }
+
+      try {
+        const response = await fetch("/menu.json");
+        const data = await response.json();
+
+        if (active) {
+          setMenu(data);
+        }
+      } catch {
+        if (active) {
+          setMenu(null);
+        }
+      }
+    }
+
+    loadMenu();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const scrapedAt = menu?.scrapedAt ?? null;
-  const items: MenuItem[] = (menu?.items ?? []).map(i =>
-    typeof i === "string" ? { name: i } : i
+  const items: MenuItem[] = (menu?.items ?? []).map((item) =>
+    typeof item === "string" ? { name: item } : item
   );
 
-  const allDietary = [...new Set(items.flatMap(i => i.dietary ?? []))].sort();
-  const allStations = [...new Set(items.map(i => i.station).filter((s): s is string => Boolean(s)))].sort();
+  const allDietary = [...new Set(items.flatMap((item) => item.dietary ?? []))].sort();
+  const allStations = [...new Set(items.map((item) => item.station).filter((station): station is string => Boolean(station)))].sort();
+  const favoriteNames = new Set(session?.user.favorites ?? []);
 
   function toggleFilter(label: string) {
-    setActiveFilters(prev =>
-      prev.includes(label) ? prev.filter(f => f !== label) : [...prev, label]
+    setActiveFilters((prev) =>
+      prev.includes(label) ? prev.filter((filter) => filter !== label) : [...prev, label]
     );
   }
 
-  const filteredItems = items.filter(item => {
+  const filteredItems = items.filter((item) => {
     const matchesSearch = item.name.toLowerCase().includes(searchText.toLowerCase());
-    const matchesFilters = activeFilters.every(f =>
-      item.dietary?.includes(f) || item.station === f
-    );
+    const matchesFilters = activeFilters.every((filter) => item.dietary?.includes(filter) || item.station === filter);
     return matchesSearch && matchesFilters;
   });
 
@@ -86,19 +129,51 @@ function Home() {
     return "/food/default.jpg";
   }
 
-  function addFavorite(item: string) {
-    const oldFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-
-    if (oldFavorites.includes(item)) {
-      alert("This item is already in favorites.");
+  async function addFavorite(item: MenuItem) {
+    if (!session) {
+      navigate("/login");
       return;
     }
 
-    const newFavorites = [...oldFavorites, item];
-    localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    alert("Added to favorites!");
+    try {
+      const data = await apiFetch<{ user: AuthUser }>(
+        "/api/favorites",
+        {
+            method: "POST",
+            body: JSON.stringify({
+              name: item.name,
+              station: item.station ?? "",
+              dietary: item.dietary ?? [],
+            }),
+          },
+          session.token
+      );
+
+      updateUser(data.user);
+    } catch (error) {
+      const message = error instanceof ApiError ? error.message : "Failed to save favorite";
+      window.alert(message);
+    }
+  }
+
+  async function removeFavorite(item: string) {
+    if (!session) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const data = await apiFetch<{ user: AuthUser }>(
+        `/api/favorites/${encodeURIComponent(item)}`,
+        { method: "DELETE" },
+        session.token
+      );
+
+      updateUser(data.user);
+    } catch (error) {
+      const message = error instanceof ApiError ? error.message : "Failed to remove favorite";
+      window.alert(message);
+    }
   }
 
   return (
@@ -126,7 +201,7 @@ function Home() {
                 View Menu
               </a>
 
-              <Link to="/Favorites" className="secondary-action">
+              <Link to="/favorites" className="secondary-action">
                 My Favorites
               </Link>
             </div>
@@ -171,14 +246,14 @@ function Home() {
                   type="text"
                   placeholder="Search menu item..."
                   value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
+                  onChange={(event) => setSearchText(event.target.value)}
                 />
               </div>
             </div>
 
             {(allDietary.length > 0 || allStations.length > 0) && (
               <div className="filter-bar">
-                {allDietary.map(label => (
+                {allDietary.map((label) => (
                   <button
                     key={label}
                     className={`filter-btn${activeFilters.includes(label) ? " active" : ""}`}
@@ -190,7 +265,7 @@ function Home() {
                 {allDietary.length > 0 && allStations.length > 0 && (
                   <div className="filter-divider" />
                 )}
-                {allStations.map(label => (
+                {allStations.map((label) => (
                   <button
                     key={label}
                     className={`filter-btn${activeFilters.includes(label) ? " active" : ""}`}
@@ -212,40 +287,55 @@ function Home() {
 
             {filteredItems.length > 0 ? (
               <div className="menu-grid">
-                {filteredItems.map((item, i) => (
-                  <div className="menu-card" key={item.name}>
-                    <div className="menu-card-top">
-                      <span className="item-number">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="item-tag">{item.station ?? "Dining Item"}</span>
-                    </div>
+                {filteredItems.map((item, index) => {
+                  const isSaved = favoriteNames.has(item.name);
 
-                    <div className="food-image">
-                      <img src={getFoodImage(item.name)} alt={item.name} />
-                    </div>
+                  return (
+                    <div className="menu-card" key={item.name}>
+                      <div className="menu-card-top">
+                        <span className="item-number">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="item-tag">{item.station ?? "Dining Item"}</span>
+                      </div>
 
-                    <div>
-                      <h3>{item.name}</h3>
-                      {item.dietary && item.dietary.length > 0 && (
-                        <div className="dietary-tags">
-                          {item.dietary.map(label => (
-                            <span key={label} className="dietary-tag">{label}</span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                      <div className="food-image">
+                        <img src={getFoodImage(item.name)} alt={item.name} />
+                      </div>
 
-                    <div className="menu-card-bottom">
-                      <button
-                        className="favorite-btn"
-                        onClick={() => addFavorite(item.name)}
-                      >
-                        Add Favorite
-                      </button>
+                      <div>
+                        <h3>{item.name}</h3>
+                        {item.dietary && item.dietary.length > 0 && (
+                          <div className="dietary-tags">
+                            {item.dietary.map((label) => (
+                              <span key={label} className="dietary-tag">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="menu-card-bottom">
+                        {session && isSaved ? (
+                          <button
+                            className="favorite-btn favorite-btn--saved"
+                            onClick={() => removeFavorite(item.name)}
+                          >
+                            Remove Favorite
+                          </button>
+                        ) : (
+                          <button
+                            className="favorite-btn"
+                            onClick={() => addFavorite(item)}
+                          >
+                            {session ? "Add Favorite" : "Sign in to save"}
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="empty-state">

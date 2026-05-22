@@ -90,3 +90,10 @@
 .auth-card__footer a:hover {
   text-decoration: underline;
 }
+
+.auth-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.4;
+}
