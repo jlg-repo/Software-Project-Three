@@ -5,6 +5,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import emailjs from "@emailjs/nodejs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import { connectDatabase } from "./db.js";
 import { User } from "./models/User.js";
@@ -374,6 +378,14 @@ app.use((error, _req, res, _next) => {
   console.error(error);
   res.status(500).json({ message: "Server error" });
 });
+
+// Serve frontend in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(join(__dirname, "../dist")));
+  app.get("*", (_req, res) => {
+    res.sendFile(join(__dirname, "../dist/index.html"));
+  });
+}
 
 async function start() {
   assertConfig();
