@@ -5,7 +5,7 @@ import { ApiError, apiFetch } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import type { AuthUser } from "../context/AuthContext";
 
-type MenuItem = { name: string; station?: string; dietary?: string[] };
+type MenuItem = { name: string; station?: string; dietary?: string[]; calories?: string | null };
 type MenuSnapshot = { scrapedAt: string; url: string };
 type MenuResponse = { snapshot: MenuSnapshot | null; items: (MenuItem & { itemOrder?: number })[] };
 type MenuData = { scrapedAt: string; url: string; items: (MenuItem | string)[] };
@@ -305,15 +305,16 @@ function Home() {
 
                       <div>
                         <h3>{item.name}</h3>
-                        {item.dietary && item.dietary.length > 0 && (
-                          <div className="dietary-tags">
-                            {item.dietary.map((label) => (
-                              <span key={label} className="dietary-tag">
-                                {label}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                        <div className="card-meta">
+                          {item.calories && <span className="calories">{item.calories}</span>}
+                          {item.dietary && item.dietary.length > 0 && (
+                            <div className="dietary-tags">
+                              {item.dietary.map((label) => (
+                                <span key={label} className="dietary-tag">{label}</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       <div className="menu-card-bottom">

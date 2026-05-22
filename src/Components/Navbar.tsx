@@ -23,9 +23,12 @@ export default function Navbar() {
             <NavLink to="/signup">Sign Up</NavLink>
           </>
         ) : (
-          <button type="button" className="nav-logout" onClick={logout}>
-            Logout
-          </button>
+          <>
+            <span className="nav-user">{session.user.name.split(" ")[0]}</span>
+            <button type="button" className="nav-logout" onClick={logout}>
+              Log out
+            </button>
+          </>
         )}
       </div>
     </nav>

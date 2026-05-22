@@ -6,6 +6,7 @@ const menuItemSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     station: { type: String, trim: true, default: "" },
     dietary: { type: [String], default: [] },
+    calories: { type: String, default: null },
     itemOrder: { type: Number, required: true },
   },
   { timestamps: true }

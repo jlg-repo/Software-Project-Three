@@ -11,6 +11,7 @@ import { MenuSnapshot } from "./models/MenuSnapshot.js";
 import { MenuItem } from "./models/MenuItem.js";
 import { ScrapeRun } from "./models/ScrapeRun.js";
 import { CalendarEvent } from "./models/CalendarEvent.js";
+import { MasterMenuItem } from "./models/MasterMenuItem.js";
 import { requireAuth } from "./middleware/auth.js";
 
 dotenv.config();
@@ -97,6 +98,17 @@ app.get("/api/menu/snapshots", async (_req, res, next) => {
       .lean();
 
     res.json({ snapshots });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/menu/master", async (_req, res, next) => {
+  try {
+    const items = await MasterMenuItem.find({})
+      .sort({ name: 1 })
+      .lean();
+    res.json({ items });
   } catch (error) {
     next(error);
   }

@@ -2,25 +2,25 @@ import puppeteer from 'puppeteer';
 import { writeFileSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import { connectDatabase } from '../server/db.js';
 import { MenuSnapshot } from '../server/models/MenuSnapshot.js';
 import { MenuItem } from '../server/models/MenuItem.js';
 import { ScrapeRun } from '../server/models/ScrapeRun.js';
-import { classifyMenuItem } from '../server/menuClassification.js';
 
 dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
-const DATA_DIR = join(ROOT, 'public');
+const DATA_DIR = join(__dirname, '..', 'public');
 
 const MENU_URL = 'https://ncf.mydininghub.com/en/location/hamilton-dining-hall';
 const DINING_HALL = 'Hamilton Dining Hall';
 
 async function scrape() {
   await connectDatabase();
+
   const run = await ScrapeRun.create({
     startedAt: new Date(),
     status: 'running',
@@ -38,73 +38,95 @@ async function scrape() {
     console.log('Navigating to dining hall...');
     await page.goto(MENU_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
-    // Wait for at least one menu item h4 to appear before extracting
-    console.log('Waiting for menu items to render...');
-    await page.waitForSelector('span[aria-live="polite"] h4', { timeout: 15000 });
+    console.log('Waiting for menu to render...');
+    await page.waitForSelector('div.print-hide section h3', { timeout: 15000 });
 
     const items = await page.evaluate(() => {
-      return Array.from(document.querySelectorAll('span[aria-live="polite"] h4'))
-        .map(el => el.textContent?.trim())
-        .filter(Boolean);
+      function normalizeStation(raw) {
+        const n = raw.toLowerCase();
+        if (n.includes('grille') || n.includes('ignite') || n.includes('iron') || n.includes('skillet')) return 'Entree Station';
+        if (n.includes('soup') || n.includes('simmer')) return 'Soup Station';
+        if (n.includes('vegan')) return 'Vegan Station';
+        if (n.includes('dessert') || n.includes('confection')) return 'Dessert Station';
+        if (n.includes('salad') || n.includes('root')) return 'Salad Bar';
+        return raw;
+      }
+
+      const results = [];
+      let order = 0;
+
+      for (const section of document.querySelectorAll('div.print-hide section')) {
+        const rawStation = section.querySelector('h3')?.textContent?.trim() ?? 'Other';
+        const station = normalizeStation(rawStation);
+
+        for (const card of section.querySelectorAll('ul > li')) {
+          const name = card.querySelector('h4')?.textContent?.trim();
+          if (!name) continue;
+
+          const calories = card
+            .querySelector('div.flex.items-start.gap-sm.p-sm div.mt-xs.flex.flex-col.gap-sm div div span')
+            ?.textContent?.trim() ?? null;
+
+          const dietary = Array.from(
+            card.querySelectorAll('div.flex.items-center.justify-between.border-t.border-border-base ul li span')
+          ).map(el => el.textContent?.trim()).filter(Boolean);
+
+          results.push({ name, station, calories, dietary, itemOrder: order++ });
+        }
+      }
+
+      return results;
     });
 
     await browser.close();
+    browser = null;
+
+    console.log(`Found ${items.length} menu items:`);
+    items.forEach(i => console.log(`  [${i.station}] ${i.name}${i.calories ? ` · ${i.calories}` : ''}${i.dietary.length ? ` · ${i.dietary.join(', ')}` : ''}`));
 
     const scrapedAt = new Date();
-    const enrichedItems = items.map((name, index) => ({
-      name,
-      itemOrder: index,
-      ...classifyMenuItem(name),
-    }));
-
     const snapshot = await MenuSnapshot.create({
       diningHall: DINING_HALL,
       url: MENU_URL,
       scrapedAt,
-      itemCount: enrichedItems.length,
+      itemCount: items.length,
     });
 
     await MenuItem.insertMany(
-      enrichedItems.map(item => ({
-        ...item,
-        snapshotId: snapshot._id,
-      }))
+      items.map(item => ({ ...item, snapshotId: snapshot._id }))
     );
 
     await ScrapeRun.findByIdAndUpdate(run._id, {
       status: 'success',
       finishedAt: new Date(),
-      itemCount: enrichedItems.length,
+      itemCount: items.length,
       snapshotId: snapshot._id,
       errorMessage: '',
     });
 
-    console.log(`Found ${enrichedItems.length} menu items:`);
-    enrichedItems.forEach(item => console.log(' -', item.name));
-
+    // Keep public/menu.json as a fallback for when the backend is unavailable
     mkdirSync(DATA_DIR, { recursive: true });
-    const outPath = join(DATA_DIR, 'menu.json');
-    writeFileSync(outPath, JSON.stringify({
+    writeFileSync(join(DATA_DIR, 'menu.json'), JSON.stringify({
       scrapedAt: scrapedAt.toISOString(),
       url: MENU_URL,
-      items: enrichedItems,
+      items,
     }, null, 2));
 
-    console.log(`\nSaved ${enrichedItems.length} items → public/menu.json`);
+    console.log(`\nSaved ${items.length} items → MongoDB + public/menu.json`);
   } catch (error) {
     await ScrapeRun.findByIdAndUpdate(run._id, {
       status: 'error',
       finishedAt: new Date(),
       errorMessage: error instanceof Error ? error.message : String(error),
     });
-    if (browser) {
-      await browser.close();
-    }
+    if (browser) await browser.close();
     throw error;
   }
 }
 
-scrape().catch(err => {
-  console.error('Scrape failed:', err.message);
-  process.exit(1);
-});
+scrape()
+  .catch(err => {
+    console.error('Scrape failed:', err.message);
+    process.exitCode = 1;
+  })
+  .finally(() => mongoose.connection.close());

@@ -2,24 +2,45 @@ import cron from 'node-cron';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { spawn } from 'child_process';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+import { connectDatabase } from '../server/db.js';
+import { runNotifications } from '../server/notify.js';
+
+dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRAPE_SCRIPT = join(__dirname, 'scrape.js');
 
-function runScrape() {
-  console.log(`[${new Date().toISOString()}] Running daily menu scrape...`);
-  const child = spawn('node', [SCRAPE_SCRIPT], { stdio: 'inherit' });
-  child.on('exit', code => {
-    if (code === 0) {
-      console.log(`[${new Date().toISOString()}] Scrape complete.`);
-    } else {
-      console.error(`[${new Date().toISOString()}] Scrape exited with code ${code}.`);
-    }
+function spawnScrape() {
+  return new Promise((resolve, reject) => {
+    console.log(`[${new Date().toISOString()}] Scraping menu...`);
+    const child = spawn(process.execPath, [SCRAPE_SCRIPT], { stdio: 'inherit' });
+    child.on('exit', code => {
+      if (code === 0) resolve();
+      else reject(new Error(`Scrape exited with code ${code}`));
+    });
   });
 }
 
-// 8:00 AM EST = 13:00 UTC
-cron.schedule('0 13 * * *', runScrape, { timezone: 'America/New_York' });
+async function runDaily() {
+  try {
+    await spawnScrape();
+    console.log(`[${new Date().toISOString()}] Scrape complete. Running notifications...`);
 
-console.log('Cron daemon started — scrape scheduled for 8:00 AM EST daily.');
+    await connectDatabase();
+    await runNotifications();
+    console.log(`[${new Date().toISOString()}] Daily job done.`);
+  } catch (err) {
+    console.error(`[${new Date().toISOString()}] Daily job failed:`, err.message);
+  } finally {
+    await mongoose.connection.close();
+  }
+}
+
+// 8:00 AM EST daily
+cron.schedule('0 8 * * *', runDaily, { timezone: 'America/New_York' });
+
+console.log('Cron daemon started — daily job at 8:00 AM EST (scrape → notify).');
 console.log('Press Ctrl+C to stop.');
