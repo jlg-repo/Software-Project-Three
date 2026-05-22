@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import emailjs from "@emailjs/nodejs";
 
 import { connectDatabase } from "./db.js";
 import { User } from "./models/User.js";
@@ -173,6 +175,77 @@ app.post("/api/auth/login", async (req, res, next) => {
 
     const token = signToken(user._id.toString());
     res.json({ token, user: await toPublicUser(user) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/auth/forgot-password", async (req, res, next) => {
+  try {
+    const email = String(req.body.email ?? "").trim().toLowerCase();
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const token = crypto.randomBytes(32).toString("hex");
+      const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+      await User.findByIdAndUpdate(user._id, { resetToken: token, resetTokenExpiry: expiry });
+
+      const appUrl = process.env.APP_URL ?? "http://localhost:5173";
+      const resetLink = `${appUrl}/reset-password?token=${token}`;
+
+      await emailjs.send(
+        process.env.EMAILJS_SERVICE_ID,
+        process.env.EMAILJS_RESET_PASSWORD_TEMPLATE_ID,
+        {
+          to_name: user.name.split(" ")[0],
+          to_email: user.email,
+          reset_link: resetLink,
+        },
+        {
+          publicKey: process.env.EMAILJS_PUBLIC_KEY,
+          privateKey: process.env.EMAILJS_PRIVATE_KEY,
+        }
+      ).catch((err) => {
+        console.error("[forgot-password] EmailJS error:", err?.text ?? err);
+      });
+    }
+
+    // Always 200 — don't reveal whether the email exists
+    res.json({ message: "If that email is registered, a reset link is on its way." });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/auth/reset-password", async (req, res, next) => {
+  try {
+    const token = String(req.body.token ?? "").trim();
+    const password = String(req.body.password ?? "");
+
+    if (!token || !password) {
+      return res.status(400).json({ message: "Token and new password are required" });
+    }
+
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: new Date() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Reset link is invalid or has expired" });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    await User.findByIdAndUpdate(user._id, {
+      passwordHash,
+      resetToken: null,
+      resetTokenExpiry: null,
+    });
+
+    const authToken = signToken(user._id.toString());
+    res.json({ token: authToken, user: await toPublicUser(user) });
   } catch (error) {
     next(error);
   }

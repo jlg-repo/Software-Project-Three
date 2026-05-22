@@ -73,6 +73,10 @@ async function scrapeCurrentMenu(page) {
       if (n.includes('vegan')) return 'Vegan Station';
       if (n.includes('dessert') || n.includes('confection')) return 'Dessert Station';
       if (n.includes('salad') || n.includes('root')) return 'Salad Bar';
+      if (n.includes('global') || n.includes('international')) return 'International Station';
+      if (n.includes('pizza') || n.includes('pasta') || n.includes('italian')) return 'Pasta & Pizza';
+      if (n.includes('deli') || n.includes('sandwich')) return 'Deli';
+      if (n.includes('grill') || n.includes('burger')) return 'Grill';
       return raw;
     }
 

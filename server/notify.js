@@ -107,7 +107,7 @@ export async function runNotifications() {
     if (!matches.length) continue;
 
     try {
-      await emailjs.send(
+      const result = await emailjs.send(
         process.env.EMAILJS_SERVICE_ID,
         process.env.EMAILJS_TEMPLATE_ID,
         {
@@ -123,11 +123,16 @@ export async function runNotifications() {
         }
       );
 
+      if (result.status !== 200) {
+        console.error(`[notify] EmailJS non-200 for ${user.email}: ${result.status} ${result.text}`);
+        continue;
+      }
+
       await User.findByIdAndUpdate(user._id, { lastEmailedAt: new Date() });
       sent++;
       console.log(`[notify] Emailed ${user.email} — ${matches.length} match(es)`);
     } catch (err) {
-      console.error(`[notify] Failed to email ${user.email}:`, err.message);
+      console.error(`[notify] Failed to email ${user.email}:`, err?.message ?? err?.text ?? JSON.stringify(err));
     }
   }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import { ApiError, apiFetch } from "../lib/api";
+import { getFoodImage } from "../lib/getFoodImage";
 import { useAuth } from "../context/AuthContext";
 import type { AuthUser } from "../context/AuthContext";
 
@@ -81,53 +82,6 @@ function Home() {
     const matchesFilters = activeFilters.every((filter) => item.dietary?.includes(filter) || item.station === filter);
     return matchesSearch && matchesFilters;
   });
-
-  function getFoodImage(item: string): string {
-    const name = item.toLowerCase();
-
-    if (name.includes("pizza")) return "/food/pizza.jpg";
-    if (name.includes("seasoned chicken")) return "/food/chicken.jpg";
-    if (name.includes("diced")) return "/food/dicedchicken.jpg";
-    if (name.includes("turkey")) return "/food/turkey.jpg";
-    if (name.includes("fish")) return "/food/fish.jpg";
-    if (name.includes("tuna")) return "/food/tuna.jpg";
-    if (name.includes("clam")) return "/food/clam.jpg";
-    if (name.includes("burger") || name.includes("hamburger") || name.includes("sandwich")) return "/food/burger.jpg";
-
-    if (
-      name.includes("salad") ||
-      name.includes("lettuce") ||
-      name.includes("spinach") ||
-      name.includes("cucumber")
-    ) {
-      return "/food/salad.jpg";
-    }
-
-    if (name.includes("cookie") || name.includes("cake")) return "/food/dessert.jpg";
-    if (name.includes("soup") || name.includes("stew") || name.includes("chowder")) return "/food/soup.jpg";
-    if (name.includes("rice")) return "/food/rice.jpg";
-    if (name.includes("beans")) return "/food/beans.jpg";
-    if (name.includes("noodles")) return "/food/noodles.jpg";
-    if (name.includes("cheese") || name.includes("feta")) return "/food/cheese.jpg";
-
-    if (
-      name.includes("tomato") ||
-      name.includes("zucchini") ||
-      name.includes("carrot") ||
-      name.includes("cauliflower") ||
-      name.includes("beets") ||
-      name.includes("peppers")
-    ) {
-      return "/food/veggie.jpg";
-    }
-
-    if (name.includes("fries") || name.includes("tater")) return "/food/fries.jpg";
-    if (name.includes("hummus") || name.includes("naan")) return "/food/naan.jpg";
-    if (name.includes("dressing")) return "/food/dressings.jpg";
-    if (name.includes("vinaigrette")) return "/food/vinaigrette.jpg";
-
-    return "/food/default.jpg";
-  }
 
   async function addFavorite(item: MenuItem) {
     if (!session) {

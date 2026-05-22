@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-05-22T17:26:35.882Z",
+  "scrapedAt": "2026-05-22T17:40:21.912Z",
   "url": "https://ncf.mydininghub.com/en/location/hamilton-dining-hall",
   "items": [
     {
@@ -33,24 +33,17 @@
     },
     {
       "name": "Hearty Macaroni Bake",
-      "station": "Global Kitchen (International)",
+      "station": "International Station",
       "calories": "210 Calories",
       "dietary": [],
       "itemOrder": 3
     },
     {
       "name": "Broccoli Florets",
-      "station": "Global Kitchen (International)",
+      "station": "International Station",
       "calories": null,
       "dietary": [],
       "itemOrder": 4
-    },
-    {
-      "name": "Broccoli Florets",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 5
     },
     {
       "name": "Grilled Seasoned Chicken Breast",
@@ -115,57 +108,22 @@
       "itemOrder": 13
     },
     {
-      "name": "American Cheese",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 14
-    },
-    {
-      "name": "Lettuce",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 15
-    },
-    {
-      "name": "Sliced Red Onions",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 16
-    },
-    {
-      "name": "Sliced Tomatoes",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 17
-    },
-    {
-      "name": "Dill Pickle Slices",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 18
-    },
-    {
       "name": "Classic Cheese Pizza",
-      "station": "Piazza (Pizza Station)",
+      "station": "Pasta & Pizza",
       "calories": "260 Calories",
       "dietary": [],
       "itemOrder": 19
     },
     {
       "name": "Deluxe Pizza",
-      "station": "Piazza (Pizza Station)",
+      "station": "Pasta & Pizza",
       "calories": "320 Calories",
       "dietary": [],
       "itemOrder": 20
     },
     {
       "name": "Pepperoni Pizza",
-      "station": "Piazza (Pizza Station)",
+      "station": "Pasta & Pizza",
       "calories": "280 Calories",
       "dietary": [],
       "itemOrder": 21
@@ -332,167 +290,6 @@
       "itemOrder": 44
     },
     {
-      "name": "Chopped Hard-Cooked Egg",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 45
-    },
-    {
-      "name": "Creamy Tuna Salad",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 46
-    },
-    {
-      "name": "Diced Chicken",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 47
-    },
-    {
-      "name": "Garbanzo Beans",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 48
-    },
-    {
-      "name": "Shredded Cheddar Cheese",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 49
-    },
-    {
-      "name": "Croutons",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 50
-    },
-    {
-      "name": "Baby Spinach",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 51
-    },
-    {
-      "name": "Cucumbers",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 52
-    },
-    {
-      "name": "Feta Cheese Crumbles",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 53
-    },
-    {
-      "name": "Fresh Fruit Salad",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 54
-    },
-    {
-      "name": "Grape Tomatoes",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 55
-    },
-    {
-      "name": "Red Grapes",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 56
-    },
-    {
-      "name": "Romaine & Iceberg Lettuce",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 57
-    },
-    {
-      "name": "Shredded Carrots",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 58
-    },
-    {
-      "name": "Sliced Beets",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 59
-    },
-    {
-      "name": "Sliced Mixed Bell Peppers",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 60
-    },
-    {
-      "name": "Balsamic Vinaigrette",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 61
-    },
-    {
-      "name": "Blue Cheese Dressing",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 62
-    },
-    {
-      "name": "Creamy Caesar Dressing",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 63
-    },
-    {
-      "name": "Honey Mustard Dressing",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 64
-    },
-    {
-      "name": "Hummus",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 65
-    },
-    {
-      "name": "Lite Italian Dressing",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 66
-    },
-    {
-      "name": "Ranch Dressing",
-      "station": "Other",
-      "calories": null,
-      "dietary": [],
-      "itemOrder": 67
-    },
-    {
       "name": "Charro Beans",
       "station": "Soup Station",
       "calories": "80 Calories",
@@ -575,16 +372,6 @@
         "Eat Well"
       ],
       "itemOrder": 75
-    },
-    {
-      "name": "Seasoned Rice",
-      "station": "True Balance",
-      "calories": "130 Calories",
-      "dietary": [
-        "Vegan",
-        "Made Without Gluten"
-      ],
-      "itemOrder": 76
     },
     {
       "name": "Spiced Chocolate Cupcake",

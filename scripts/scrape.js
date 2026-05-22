@@ -49,6 +49,10 @@ async function scrape() {
         if (n.includes('vegan')) return 'Vegan Station';
         if (n.includes('dessert') || n.includes('confection')) return 'Dessert Station';
         if (n.includes('salad') || n.includes('root')) return 'Salad Bar';
+        if (n.includes('global') || n.includes('international')) return 'International Station';
+        if (n.includes('pizza') || n.includes('pasta') || n.includes('italian')) return 'Pasta & Pizza';
+        if (n.includes('deli') || n.includes('sandwich')) return 'Deli';
+        if (n.includes('grill') || n.includes('burger')) return 'Grill';
         return raw;
       }
 
@@ -81,25 +85,33 @@ async function scrape() {
     await browser.close();
     browser = null;
 
-    console.log(`Found ${items.length} menu items:`);
-    items.forEach(i => console.log(`  [${i.station}] ${i.name}${i.calories ? ` · ${i.calories}` : ''}${i.dietary.length ? ` · ${i.dietary.join(', ')}` : ''}`));
+    // Deduplicate by name, keeping first occurrence (real station wins over "Other")
+    const seen = new Set();
+    const uniqueItems = items.filter(item => {
+      if (seen.has(item.name)) return false;
+      seen.add(item.name);
+      return true;
+    });
+
+    console.log(`Found ${uniqueItems.length} unique menu items (${items.length - uniqueItems.length} duplicates removed):`);
+    uniqueItems.forEach(i => console.log(`  [${i.station}] ${i.name}${i.calories ? ` · ${i.calories}` : ''}${i.dietary.length ? ` · ${i.dietary.join(', ')}` : ''}`));
 
     const scrapedAt = new Date();
     const snapshot = await MenuSnapshot.create({
       diningHall: DINING_HALL,
       url: MENU_URL,
       scrapedAt,
-      itemCount: items.length,
+      itemCount: uniqueItems.length,
     });
 
     await MenuItem.insertMany(
-      items.map(item => ({ ...item, snapshotId: snapshot._id }))
+      uniqueItems.map(item => ({ ...item, snapshotId: snapshot._id }))
     );
 
     await ScrapeRun.findByIdAndUpdate(run._id, {
       status: 'success',
       finishedAt: new Date(),
-      itemCount: items.length,
+      itemCount: uniqueItems.length,
       snapshotId: snapshot._id,
       errorMessage: '',
     });
@@ -109,10 +121,10 @@ async function scrape() {
     writeFileSync(join(DATA_DIR, 'menu.json'), JSON.stringify({
       scrapedAt: scrapedAt.toISOString(),
       url: MENU_URL,
-      items,
+      items: uniqueItems,
     }, null, 2));
 
-    console.log(`\nSaved ${items.length} items → MongoDB + public/menu.json`);
+    console.log(`\nSaved ${uniqueItems.length} items → MongoDB + public/menu.json`);
   } catch (error) {
     await ScrapeRun.findByIdAndUpdate(run._id, {
       status: 'error',

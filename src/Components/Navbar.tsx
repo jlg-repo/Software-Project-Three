@@ -16,6 +16,7 @@ export default function Navbar() {
 
       <div className="navbar-links">
         <NavLink to="/">Home</NavLink>
+        <NavLink to="/master">Master Menu</NavLink>
         <NavLink to="/favorites">Favorites</NavLink>
         {!session ? (
           <>
