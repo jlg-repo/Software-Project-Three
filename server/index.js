@@ -216,7 +216,8 @@ app.post("/api/auth/forgot-password", async (req, res, next) => {
       });
     }
 
-    // Always 200 — don't reveal whether the email exists
+    // always return 200 even if the email isn't in the db
+    // if we returned 404 for unknown emails, anyone could use this to figure out who has an account
     res.json({ message: "If that email is registered, a reset link is on its way." });
   } catch (error) {
     next(error);
@@ -284,6 +285,8 @@ app.post("/api/favorites", requireAuth, loadUser, async (req, res, next) => {
       return res.status(400).json({ message: "Favorite name is required" });
     }
 
+    // upsert with $setOnInsert means "create it if it doesn't exist, otherwise do nothing"
+    // keeps users from saving the same item twice
     await Favorite.updateOne(
       { userId: req.user._id, name },
       {
@@ -382,6 +385,9 @@ app.use((error, _req, res, _next) => {
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(join(__dirname, "../dist")));
+  // /{*splat} is the Express 5 way to write a catch-all wildcard
+  // bare * doesn't work in Express 5 anymore, this sends index.html for all non-API routes
+  // so React Router can handle the navigation on the client side
   app.get("/{*splat}", (_req, res) => {
     res.sendFile(join(__dirname, "../dist/index.html"));
   });

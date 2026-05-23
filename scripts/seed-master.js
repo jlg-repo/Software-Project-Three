@@ -1,15 +1,7 @@
-/**
- * Scrapes every available (non-greyed-out) day on the dining hall calendar
- * and upserts unique items into MasterMenuItem.
- *
- * The calendar is react-datepicker — clicking a day closes the popper,
- * so we re-open it before each click. Available days use the class
- * "react-datepicker__day", disabled days additionally carry
- * "react-datepicker__day--disabled".
- *
- * Usage:
- *   npm run seed:master
- */
+// npm run seed:master
+// clicks through every available day on the dining hall calendar and adds any new items to the master menu
+// the calendar is react-datepicker and clicking a day closes it, so we re-open it before each click
+// greyed out days use the class react-datepicker__day--disabled, we skip those
 
 import puppeteer from 'puppeteer';
 import mongoose from 'mongoose';
@@ -136,7 +128,9 @@ async function seed() {
       await openCalendar(page);
       await page.click(`.react-datepicker__month .${dayClass}:not(.react-datepicker__day--disabled)`);
 
-      // Wait for React to re-render the menu
+      // give React 2 seconds to re-render after the calendar click
+      // the menu content is loaded client-side so we need to wait before scraping
+      // 2s was enough in testing but bump it if scrapes start coming back empty
       await new Promise(r => setTimeout(r, 2000));
 
       const items = await scrapeCurrentMenu(page);

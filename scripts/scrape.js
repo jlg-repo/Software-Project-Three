@@ -85,6 +85,8 @@ async function scrape() {
     await browser.close();
     browser = null;
 
+    // some items show up under multiple sections on the dining hall site
+    // we keep the first occurrence because the real station name comes before the "Other" fallback
     // Deduplicate by name, keeping first occurrence (real station wins over "Other")
     const seen = new Set();
     const uniqueItems = items.filter(item => {

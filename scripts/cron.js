@@ -13,6 +13,9 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRAPE_SCRIPT = join(__dirname, 'scrape.js');
 
+// runs the scraper as a separate process instead of importing it directly
+// the scraper opens puppeteer and closes its own db connection when done
+// if we ran it in the same process it would kill the cron's db connection too
 function spawnScrape() {
   return new Promise((resolve, reject) => {
     console.log(`[${new Date().toISOString()}] Scraping menu...`);

@@ -12,7 +12,7 @@ const DINING_HALL = "Hamilton Dining Hall";
 // Also does a bulk request to the DB, a single Favorite.find(), minimizing round-trips and latency
 
 export async function runNotifications() {
-  // 1. Latest snapshot + its items
+  // grab the most recent snapshot so we know what was served today
   const snapshot = await MenuSnapshot.findOne({ diningHall: DINING_HALL })
     .sort({ scrapedAt: -1 })
     .lean();
@@ -28,11 +28,12 @@ export async function runNotifications() {
     return;
   }
 
-  // 2. Master menu names → Set for O(1) lookup
+  // load all master menu names into a Set so lookups are fast
   const masterDocs = await MasterMenuItem.find({}, "name").lean();
   const masterNames = new Set(masterDocs.map((d) => d.name));
 
-  // 3. Inverted favorites index: itemName → Set<userId string>
+  // build a map of item name to the set of users who favorited it
+  // this lets us look up "who wants to hear about this item" in one step
   const allFavorites = await Favorite.find({}, "userId name").lean();
   const favoritesByItem = new Map();
   for (const fav of allFavorites) {
@@ -42,7 +43,7 @@ export async function runNotifications() {
     favoritesByItem.get(fav.name).add(fav.userId.toString());
   }
 
-  // 4. ONE PASS — master upsert queue + email queue
+  // loop through today's items once, building both queues at the same time
   const newMasterItems = [];
   const seenNames = [];
   const emailQueue = new Map(); // userId string → string[]
@@ -73,8 +74,10 @@ export async function runNotifications() {
     }
   }
 
-  // 5. Apply master menu writes
+  // write any new items to the master menu
   if (newMasterItems.length) {
+    // ordered: false keeps inserting even if one doc fails. catch swallows duplicate key errors
+    // which can happen if notify runs twice in the same day, totally fine to skip those
     await MasterMenuItem.insertMany(newMasterItems, { ordered: false }).catch(() => {});
     console.log(`[notify] Master menu: +${newMasterItems.length} new items.`);
   } else {
@@ -87,12 +90,14 @@ export async function runNotifications() {
     { $set: { lastSeenAt: snapshot.scrapedAt }, $inc: { seenCount: 1 } }
   );
 
-  // 6. Send emails — one per user, skip anyone already emailed today
+  // send one email per user, skip anyone who already got one today
   if (!emailQueue.size) {
     console.log("[notify] No favorite matches today, no emails to send.");
     return;
   }
 
+  // set to midnight so we can filter out anyone already emailed today
+  // comparing lastEmailedAt < midnight means they haven't gotten one yet today
   const todayMidnight = new Date();
   todayMidnight.setHours(0, 0, 0, 0);
 
