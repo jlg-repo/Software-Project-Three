@@ -136,6 +136,7 @@ async function scrape() {
   }
 }
 
+
 scrape()
   .catch(err => {
     console.error('Scrape failed:', err.message);
