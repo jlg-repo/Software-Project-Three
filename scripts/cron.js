@@ -42,8 +42,10 @@ async function runDaily() {
   }
 }
 
-// 8:00 AM EST daily
-cron.schedule('0 8 * * *', runDaily, { timezone: 'America/New_York' });
+//cron.schedule('0 8 * * *', runDaily);
 
-console.log('Cron daemon started — daily job at 8:00 AM EST (scrape → notify).');
+// debug: every minute for testing
+cron.schedule('* * * * *', runDaily);
+
+console.log('Cron daemon started.');
 console.log('Press Ctrl+C to stop.');
