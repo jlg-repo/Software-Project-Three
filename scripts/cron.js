@@ -10,6 +10,13 @@ import { runNotifications } from '../server/notify.js';
 
 dotenv.config();
 
+await connectDatabase();
+
+process.on('SIGTERM', async () => {
+  await mongoose.connection.close();
+  process.exit(0);
+});
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRAPE_SCRIPT = join(__dirname, 'scrape.js');
 
@@ -31,14 +38,10 @@ async function runDaily() {
   try {
     await spawnScrape();
     console.log(`[${new Date().toISOString()}] Scrape complete. Running notifications...`);
-
-    await connectDatabase();
     await runNotifications();
     console.log(`[${new Date().toISOString()}] Daily job done.`);
   } catch (err) {
     console.error(`[${new Date().toISOString()}] Daily job failed:`, err.message);
-  } finally {
-    await mongoose.connection.close();
   }
 }
 
