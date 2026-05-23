@@ -22,22 +22,34 @@ MongoDB is our storage system for users' favorites, menu items, users, and menu 
 A multitude of scripts were required for the functionality of Puppeteer and EmailJS. They are as follows:
 
 ## Build.JS
-Runs NPM build steps: `build:tsc` and `build:client`.
+`npm run build` — Runs NPM build steps: `build:tsc` and `build:client`.
 
 ## Cron.JS
-This handles the daily web scrape, scheduled at 8AM to run Puppeteer, update MongoDB, and send notifications. This is part of going beyond CRUD — creating permanent background functions.
+`npm run cron` — This handles the daily web scrape, scheduled at 8AM to run Puppeteer, update MongoDB, and send notifications. This is part of going beyond CRUD — creating permanent background functions.
 
 ## Dev.JS
-Runs the dev server and dev client to link both.
+`npm run dev` — Runs the dev server and dev client to link both.
 
 ## Scrape.JS
-This is the Puppeteer launch — its functions and logic, saving results, and continuing with the web scrape.
+`npm run scrape` — This is the Puppeteer launch — its functions and logic, saving results, and continuing with the web scrape.
 
 ## Seed-Master.js
-This is a sub-function of Puppeteer to iterate through the main site's calendar. This is used to seed the master list with an initial larger list of menu items for initial users to have a wider selection of menu items than just that day's menu. It can also be used at any time to look up to 30 days ahead and prepopulate the master menu with the upcoming items, ie. if you wanted to expand the master menu at any time, for better options or for speeding up the daily scrape and notify operations.
+`npm run seed:master` — This is a sub-function of Puppeteer to iterate through the main site's calendar. This is used to seed the master list with an initial larger list of menu items for initial users to have a wider selection of menu items than just that day's menu. It can also be used at any time to look up to 30 days ahead and prepopulate the master menu with the upcoming items, ie. if you wanted to expand the master menu at any time, for better options or for speeding up the daily scrape and notify operations.
+
+## Start
+`npm start` — Runs the production API server. In production, also serves the built frontend. Used by Railway for the main web service.
+
+## Test
+`npm test` — Runs the Jest test suite covering server health, schema field validation, and signup/auth conditions.
+
+## Trigger-Notify.js
+`node scripts/trigger-notify.js` — Manually runs the notification pipeline without scraping. Useful for testing email delivery against the most recent snapshot already in the database.
+
+## Reset-Notified.js
+`node scripts/reset-notified.js` — Clears the `lastEmailedAt` flag for all users, allowing notification emails to be re-sent. Used when testing the email pipeline or recovering from a failed send.
 
 # Work Distribution
-- Jason — Puppeteer scrape logic and selector fields in schema, bugfixes, deployment, notify.js searching/matching algorithm, menu filter buttons, Master Menu page
+- Jason — Puppeteer scrape logic and selector fields in schema, cron job, bugfixes, deployment, notify.js searching/matching algorithm, menu filter buttons, Master Menu page
 - Chris — MongoDB backend functionality
 - Brandon — Frontend and form styles (Login & Signup)
 - Yasir — Frontend pages (Home & Favorites)

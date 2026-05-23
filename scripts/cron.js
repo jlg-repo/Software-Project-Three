@@ -45,10 +45,10 @@ async function runDaily() {
   }
 }
 
-//cron.schedule('0 8 * * *', runDaily);
+cron.schedule('0 8 * * *', runDaily);
 
 // debug: every minute for testing
-cron.schedule('* * * * *', runDaily);
+//cron.schedule('* * * * *', runDaily);
 
 console.log('Cron daemon started.');
 console.log('Press Ctrl+C to stop.');
